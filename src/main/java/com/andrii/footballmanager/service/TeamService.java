@@ -35,7 +35,7 @@ public class TeamService {
     public Team updateTeam(Team team, int id) throws TeamNotFoundException {
         Optional<Team> teamToUpdate = teamRepository.findById(id);
         if(teamToUpdate.isPresent()) {
-            Team updatedTeam = new Team();
+            Team updatedTeam = teamToUpdate.get();
             updatedTeam.setName(team.getName());
             updatedTeam.setCity(team.getCity());
             updatedTeam.setCountry(team.getCountry());
