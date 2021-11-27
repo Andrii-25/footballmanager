@@ -35,7 +35,7 @@ public class PlayerController {
         }
     }
 
-    @GetMapping
+    @GetMapping("/{id}")
     public ResponseEntity<Player> getById(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(playerService.getById(id));
@@ -44,7 +44,7 @@ public class PlayerController {
         }
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<Player> update(@PathVariable Long id, @RequestBody Player player) {
         try {
             return ResponseEntity.ok(playerService.update(id, player));
@@ -53,7 +53,7 @@ public class PlayerController {
         }
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         try {
             playerService.delete(id);
