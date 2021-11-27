@@ -61,4 +61,13 @@ public class PlayerController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong...", e);
         }
     }
+
+    @PostMapping("/transfer")
+    public void transfer(@RequestParam Long playerId, @RequestParam Long teamId) {
+        try {
+            playerService.transfer(playerId, teamId);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong...", e);
+        }
+    }
 }
