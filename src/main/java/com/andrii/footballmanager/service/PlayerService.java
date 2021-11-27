@@ -7,8 +7,6 @@ import com.andrii.footballmanager.repo.PlayerRepository;
 import com.andrii.footballmanager.repo.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -73,8 +71,8 @@ public class PlayerService {
             Team team = optionalTeam.get();
             long numberOfMonths = getNumberOfMonths(player.getCareerStartDate());
             long transferCost = getTransferCost(numberOfMonths, player.getAge());
-            long commission = getCommission(team.getMoneyBalance(), player.getTeam().getTransferFee());
-            long transferSum = transferCost + commission;
+            double commission = getCommission(team.getMoneyBalance(), player.getTeam().getTransferFee());
+            long transferSum = transferCost + (long)commission;
             team.setMoneyBalance(team.getMoneyBalance() - transferSum);
             player.getTeam().setMoneyBalance(player.getTeam().getMoneyBalance() + transferSum);
             player.setTeam(optionalTeam.get());
@@ -84,18 +82,17 @@ public class PlayerService {
     }
 
     private long getNumberOfMonths(Date date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return ChronoUnit.MONTHS.between(LocalDate.parse(dateFormat.format(date)).withDayOfMonth(1),
-                LocalDate.parse(dateFormat.format(new Date())).withDayOfMonth(1));
+                    LocalDate.parse(dateFormat.format(new Date())).withDayOfMonth(1));
     }
 
     private long getTransferCost(long numberOfMonths, int age) {
         return numberOfMonths * 100000 / age;
     }
 
-    private long getCommission(long moneyBalance, int transferFee) {
-        return moneyBalance * (transferFee / 100);
+    private double getCommission(double moneyBalance, int transferFee) {
+        double transferRate = ((double)transferFee / 100);
+        return moneyBalance * (transferRate / 100);
     }
-
-    private void deductAmountOfTransfer() {};
 }

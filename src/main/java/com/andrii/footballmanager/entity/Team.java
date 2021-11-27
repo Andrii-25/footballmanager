@@ -24,16 +24,16 @@ public class Team {
     private int transferFee;
 
     @Column(name = "money_balance")
-    private long moneyBalance;
+    private double moneyBalance;
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
     private Set<Player> players = new HashSet<>();
 
-    public long getMoneyBalance() {
+    public double getMoneyBalance() {
         return moneyBalance;
     }
 
-    public void setMoneyBalance(long moneyBalance) {
+    public void setMoneyBalance(double moneyBalance) {
         this.moneyBalance = moneyBalance;
     }
 

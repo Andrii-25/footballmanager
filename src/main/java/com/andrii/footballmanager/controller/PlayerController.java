@@ -63,7 +63,7 @@ public class PlayerController {
     }
 
     @PostMapping("/transfer")
-    public void transfer(@RequestParam Long playerId, @RequestParam Long teamId) {
+    public void transfer(@RequestParam("playerId") Long playerId, @RequestParam("teamId") Long teamId) {
         try {
             playerService.transfer(playerId, teamId);
         } catch (Exception e) {
