@@ -29,6 +29,26 @@ public class Team {
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
     private Set<Player> players = new HashSet<>();
 
+    public Team() {
+    }
+
+    public Team(String name, String city, String country, int transferFee, double moneyBalance, Set<Player> players) {
+        this.name = name;
+        this.city = city;
+        this.country = country;
+        this.transferFee = transferFee;
+        this.moneyBalance = moneyBalance;
+        this.players = players;
+    }
+
+    public Team(String name, String city, String country, int transferFee, double moneyBalance) {
+        this.name = name;
+        this.city = city;
+        this.country = country;
+        this.transferFee = transferFee;
+        this.moneyBalance = moneyBalance;
+    }
+
     public double getMoneyBalance() {
         return moneyBalance;
     }

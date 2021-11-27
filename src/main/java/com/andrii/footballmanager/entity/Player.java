@@ -31,6 +31,17 @@ public class Player {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Team team;
 
+    public Player() {
+    }
+
+    public Player(String name, String surname, int age, Date careerStartDate, Team team) {
+        this.name = name;
+        this.surname = surname;
+        this.age = age;
+        this.careerStartDate = careerStartDate;
+        this.team = team;
+    }
+
     public Long getId() {
         return id;
     }
