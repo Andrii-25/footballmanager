@@ -8,6 +8,10 @@ import com.andrii.footballmanager.repo.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @Service
@@ -60,4 +64,38 @@ public class PlayerService {
             throw new PlayerNotFoundException("Player not found!");
         }
     }
+
+    public void transfer(Long playerId, Long teamId) {
+        Optional<Player> optionalPlayer = playerRepository.findById(playerId);
+        Optional<Team> optionalTeam = teamRepository.findById(teamId);
+        if(optionalPlayer.isPresent() && optionalTeam.isPresent()) {
+            Player player = optionalPlayer.get();
+            Team team = optionalTeam.get();
+            long numberOfMonths = getNumberOfMonths(player.getCareerStartDate());
+            long transferCost = getTransferCost(numberOfMonths, player.getAge());
+            long commission = getCommission(team.getMoneyBalance(), player.getTeam().getTransferFee());
+            long transferSum = transferCost + commission;
+            team.setMoneyBalance(team.getMoneyBalance() - transferSum);
+            player.getTeam().setMoneyBalance(player.getTeam().getMoneyBalance() + transferSum);
+            player.setTeam(optionalTeam.get());
+            playerRepository.save(player);
+            teamRepository.save(team);
+        }
+    }
+
+    private long getNumberOfMonths(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        return ChronoUnit.MONTHS.between(LocalDate.parse(dateFormat.format(date)).withDayOfMonth(1),
+                LocalDate.parse(dateFormat.format(new Date())).withDayOfMonth(1));
+    }
+
+    private long getTransferCost(long numberOfMonths, int age) {
+        return numberOfMonths * 100000 / age;
+    }
+
+    private long getCommission(long moneyBalance, int transferFee) {
+        return moneyBalance * (transferFee / 100);
+    }
+
+    private void deductAmountOfTransfer() {};
 }
