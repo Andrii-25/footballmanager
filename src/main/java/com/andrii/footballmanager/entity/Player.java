@@ -1,16 +1,17 @@
 package com.andrii.footballmanager.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.util.GregorianCalendar;
 
 @Entity
 @Table(name = "player")
 public class Player {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "name")
@@ -24,22 +25,12 @@ public class Player {
 
     @Column(name = "career_start_date")
     @DateTimeFormat(pattern = "yy-MM-dd")
-    private Date careerStartDate;
+    private GregorianCalendar careerStartDate;
 
-    @Column(name = "team")
-    @ManyToMany(mappedBy = "player", fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="team_id")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Team team;
-
-    public Player() {
-    }
-
-    public Player(String name, String surname, int age, Date careerStartDate, Team team) {
-        this.name = name;
-        this.surname = surname;
-        this.age = age;
-        this.careerStartDate = careerStartDate;
-        this.team = team;
-    }
 
     public Long getId() {
         return id;
@@ -73,11 +64,11 @@ public class Player {
         this.age = age;
     }
 
-    public Date getCareerStartDate() {
+    public GregorianCalendar getCareerStartDate() {
         return careerStartDate;
     }
 
-    public void setCareerStartDate(Date careerStartDate) {
+    public void setCareerStartDate(GregorianCalendar careerStartDate) {
         this.careerStartDate = careerStartDate;
     }
 

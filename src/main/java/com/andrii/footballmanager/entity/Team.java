@@ -1,15 +1,18 @@
 package com.andrii.footballmanager.entity;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "team")
 public class Team {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "teamId")
+    private Long teamId;
 
     @Column(name = "team_name")
     private String name;
@@ -23,26 +26,23 @@ public class Team {
     @Column(name = "transfer_fee")
     private int transferFee;
 
-    @OneToMany(mappedBy = "team", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Player> playerList = new ArrayList<>();
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
+    private Set<Player> players = new HashSet<>();
 
-    public Team() {
-    }
-
-    public Team(String name, String city, String country, int transferFee, List<Player> playerList) {
-        this.name = name;
-        this.city = city;
-        this.country = country;
-        this.transferFee = transferFee;
-        this.playerList = playerList;
-    }
-
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getTeamId() {
+        return teamId;
+    }
+
+    public void setTeamId(Long teamId) {
+        this.teamId = teamId;
     }
 
     public String getName() {
@@ -77,11 +77,15 @@ public class Team {
         this.transferFee = transferFee;
     }
 
-    public List<Player> getPlayerList() {
-        return playerList;
+    public Set<Player> getPlayers() {
+        return players;
     }
 
-    public void setPlayerList(List<Player> playerList) {
-        this.playerList = playerList;
+    public void setPlayers(Set<Player> players) {
+        this.players = players;
+
+        for(Player p : players) {
+            p.setTeam(this);
+        }
     }
 }
