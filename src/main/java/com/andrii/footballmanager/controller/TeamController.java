@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import javax.validation.Valid;
 import java.util.Set;
 
 @RestController
@@ -17,11 +19,11 @@ public class TeamController {
     private TeamService teamService;
 
     @PostMapping
-    public ResponseEntity<Team> create(@RequestBody Team team) {
+    public ResponseEntity<Team> create(@RequestBody @Valid Team team) {
         try {
             return ResponseEntity.ok(teamService.create(team));
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong...", e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }
     }
 
@@ -30,7 +32,7 @@ public class TeamController {
         try {
             return ResponseEntity.ok(teamService.getAll());
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong...", e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }
     }
 
@@ -39,16 +41,16 @@ public class TeamController {
         try {
             return ResponseEntity.ok(teamService.getById(id));
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong...", e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Team> update(@PathVariable Long id, @RequestBody Team team) {
+    public ResponseEntity<Team> update(@PathVariable Long id, @Valid @RequestBody Team team) {
         try {
             return ResponseEntity.ok(teamService.updateTeam(id, team));
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong...", e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }
     }
 
@@ -57,7 +59,7 @@ public class TeamController {
         try {
             teamService.deleteTeam(id);
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong...", e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }
     }
 }

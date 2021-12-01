@@ -24,7 +24,7 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         try {
-            loadTeamData();
+//            loadTeamData();
         } catch (Exception e) {
             log.error(e.getMessage());
         }

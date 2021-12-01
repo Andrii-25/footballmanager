@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import javax.validation.Valid;
 import java.util.Set;
 
 @RestController
@@ -17,11 +18,11 @@ public class PlayerController {
     private PlayerService playerService;
 
     @PostMapping
-    public ResponseEntity<Player> create(@RequestBody Player player) {
+    public ResponseEntity<Player> create(@RequestBody @Valid Player player) {
         try {
             return ResponseEntity.ok(playerService.create(player));
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong...", e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }
     }
 
@@ -30,7 +31,7 @@ public class PlayerController {
         try {
             return ResponseEntity.ok(playerService.getAll());
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong...", e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }
     }
 
@@ -39,16 +40,16 @@ public class PlayerController {
         try {
             return ResponseEntity.ok(playerService.getById(id));
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong...", e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Player> update(@PathVariable Long id, @RequestBody Player player) {
+    public ResponseEntity<Player> update(@PathVariable Long id, @RequestBody @Valid Player player) {
         try {
             return ResponseEntity.ok(playerService.update(id, player));
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong...", e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }
     }
 
@@ -57,7 +58,7 @@ public class PlayerController {
         try {
             playerService.delete(id);
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong...", e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }
     }
 
@@ -66,7 +67,7 @@ public class PlayerController {
         try {
             playerService.transfer(playerId, teamId);
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong...", e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }
     }
 }

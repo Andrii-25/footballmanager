@@ -3,6 +3,7 @@ package com.andrii.footballmanager.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.util.Date;
 
 @Entity
@@ -13,12 +14,18 @@ public class Player {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty(message = "Name is mandatory!")
+    @Size(min = 3, max = 30, message = "Name should be between 3 and 30 characters!")
     @Column(name = "name")
     private String name;
 
+    @NotEmpty(message = "Surname is mandatory!")
+    @Size(min = 3, max = 30, message = "Surname should be between 3 and 30 characters!")
     @Column(name = "surname")
     private String surname;
 
+    @Min(value = 0, message = "Age should be greater than 0!")
+    @Max(value = 200, message = "Age should be less than 200!")
     @Column(name = "age")
     private int age;
 

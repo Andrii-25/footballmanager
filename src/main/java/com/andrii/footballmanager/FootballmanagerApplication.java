@@ -14,7 +14,7 @@ public class FootballmanagerApplication {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry corsRegistry) {
-				corsRegistry.addMapping("/**").allowedOrigins("*");
+				corsRegistry.addMapping("/**").allowedOrigins("*").allowedMethods("*");
 			}
 		};
 	}
