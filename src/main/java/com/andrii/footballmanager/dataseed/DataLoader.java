@@ -35,20 +35,26 @@ public class DataLoader implements CommandLineRunner {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
             Team realMadrid = new Team("Real Madrid", "Madrid", "Spain", 5, 100000000);
-            Player player1 = new Player("Karim", "Benzema", 33, sdf.parse("1993-01-01"), realMadrid);
-            Player player2 = new Player("Eden", "Hazard", 30, sdf.parse("1995-01-01"), realMadrid);
+            Player player1 = new Player("Karim", "Benzema", 33, sdf.parse("2004-01-01"), realMadrid);
+            Player player2 = new Player("Eden", "Hazard", 30, sdf.parse("2007-01-01"), realMadrid);
             Set<Player> players1 = new HashSet<>();
             players1.add(player1);
             players1.add(player2);
             realMadrid.setPlayers(players1);
 
             Team barcelona = new Team("Barcelona", "Barcelona", "Spain", 7, 100000000);
-            Player player3 = new Player("Lionel", "Messi", 33, sdf.parse("1992-01-01"), barcelona);
-            Player player4 = new Player("Gerard", "Pique", 34, sdf.parse("1992-01-01"), barcelona);
+            Player player3 = new Player("Gerard", "Pique", 34, sdf.parse("2004-01-01"), barcelona);
             Set<Player> players2 = new HashSet<>();
-            players1.add(player3);
-            players1.add(player4);
+            players2.add(player3);
             barcelona.setPlayers(players2);
+
+            Team psg = new Team("Paris Saint Germain", "Paris", "France", 4, 100000000);
+            Player player4 = new Player("Lionel", "Messi", 34, sdf.parse("2004-01-01"), psg);
+            Player player5 = new Player("Kylian", "Mbappe", 22, sdf.parse("2015-01-01"), psg);
+            Set<Player> players3 = new HashSet<>();
+            players3.add(player4);
+            players3.add(player5);
+            psg.setPlayers(players3);
 
             Set<Team> teams = new HashSet<>();
             teams.add(realMadrid);
