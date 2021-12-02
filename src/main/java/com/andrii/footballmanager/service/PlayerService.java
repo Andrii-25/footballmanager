@@ -5,8 +5,6 @@ import com.andrii.footballmanager.entity.Team;
 import com.andrii.footballmanager.exception.PlayerNotFoundException;
 import com.andrii.footballmanager.repo.PlayerRepository;
 import com.andrii.footballmanager.repo.TeamRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
