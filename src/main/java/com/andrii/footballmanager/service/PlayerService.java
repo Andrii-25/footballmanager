@@ -5,6 +5,8 @@ import com.andrii.footballmanager.entity.Team;
 import com.andrii.footballmanager.exception.PlayerNotFoundException;
 import com.andrii.footballmanager.repo.PlayerRepository;
 import com.andrii.footballmanager.repo.TeamRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
@@ -21,9 +23,9 @@ public class PlayerService {
     @Autowired
     private TeamRepository teamRepository;
 
-    public Player create(Player player) {
-        Optional<Team> optionalTeam = teamRepository.findById(player.getTeam().getId());
-        optionalTeam.ifPresent(player::setTeam);
+    public Player create(Player player, String name) {
+        Team team = teamRepository.findAllByName(name);
+        player.setTeam(team);
         return playerRepository.save(player);
     }
 
@@ -31,6 +33,10 @@ public class PlayerService {
         Set<Player> players = new HashSet<>();
         playerRepository.findAll().forEach(players::add);
         return players;
+    }
+
+    public Set<Player> getAllByTeamId(Long id) {
+        return new HashSet<Player>(playerRepository.findAllByTeamId(id));
     }
 
     public Player getById(Long id) throws PlayerNotFoundException {
@@ -63,9 +69,9 @@ public class PlayerService {
         }
     }
 
-    public void transfer(Long playerId, Long teamId) {
+    public void transfer(Long playerId, String teamName) {
         Optional<Player> optionalPlayer = playerRepository.findById(playerId);
-        Optional<Team> optionalTeam = teamRepository.findById(teamId);
+        Optional<Team> optionalTeam = Optional.ofNullable(teamRepository.findAllByName(teamName));
         if(optionalPlayer.isPresent() && optionalTeam.isPresent()) {
             Player player = optionalPlayer.get();
             Team team = optionalTeam.get();

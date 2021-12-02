@@ -5,7 +5,6 @@ import com.andrii.footballmanager.exception.TeamNotFoundException;
 import com.andrii.footballmanager.repo.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.*;
 
 

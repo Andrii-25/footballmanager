@@ -16,25 +16,20 @@ public class Player {
 
     @NotEmpty(message = "Name is mandatory!")
     @Size(min = 3, max = 30, message = "Name should be between 3 and 30 characters!")
-    @Column(name = "name")
     private String name;
 
     @NotEmpty(message = "Surname is mandatory!")
     @Size(min = 3, max = 30, message = "Surname should be between 3 and 30 characters!")
-    @Column(name = "surname")
     private String surname;
 
     @Min(value = 0, message = "Age should be greater than 0!")
     @Max(value = 200, message = "Age should be less than 200!")
-    @Column(name = "age")
     private int age;
 
-    @Column(name = "career_start_date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
     private Date careerStartDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="team_id")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Team team;
 
@@ -47,6 +42,18 @@ public class Player {
         this.age = age;
         this.careerStartDate = careerStartDate;
         this.team = team;
+    }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", age=" + age +
+                ", careerStartDate=" + careerStartDate +
+                ", team=" + team +
+                '}';
     }
 
     public Long getId() {

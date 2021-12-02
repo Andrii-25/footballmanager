@@ -15,27 +15,22 @@ public class Team {
 
     @NotEmpty(message = "Name is mandatory!")
     @Size(min = 3, max = 30, message = "Name should be between 3 and 30 characters!")
-    @Column(name = "team_name")
     private String name;
 
     @NotEmpty(message = "City is mandatory!")
     @Size(min = 3, max = 30, message = "City should be between 3 and 30 characters!")
-    @Column(name = "city")
     private String city;
 
     @NotEmpty(message = "Country is mandatory!")
     @Size(min = 3, max = 30, message = "Country should be between 3 and 30 characters!")
-    @Column(name = "country")
     private String country;
 
     @Min(value = 0, message = "Transfer fee should be greater than 0!")
     @Max(value = 10, message = "Transfer fee should be less than 10!")
-    @Column(name = "transfer_fee")
     private int transferFee;
 
     @DecimalMin(value = "0.0", message = "Transfer fee should be greater than 0!")
     @DecimalMax(value = "1000000000", message = "Transfer fee should be less than 1000000000!")
-    @Column(name = "money_balance")
     private double moneyBalance;
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
